@@ -8,7 +8,6 @@ app = FastAPI(docs_url="/",
               description="///",
               )
 
-
 app.include_router(users_route, prefix="/user", tags=["users"])
 app.include_router(auth_route, prefix="/auth", tags=["auth"])
 app.include_router(pictures_route, prefix="/pictures", tags=["pictures"])
