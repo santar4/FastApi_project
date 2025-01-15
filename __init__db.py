@@ -1,6 +1,6 @@
 import asyncio
 
-from app.models import User, Comment, Picture
+from app.models import User, Comment, Picture, Tag
 from settings import engine, Base, async_session
 
 
@@ -13,35 +13,45 @@ async def create_bd():
 async def insert_data():
     async with async_session() as sess:
         try:
-            user = User(
-                username="john_doe",
-                email="john.doe@example.com",
-                password_hash="user1",
-                bio_profile="A photographer and adventurer"
-            )
+            user = User(username="john_doe", email="john@example.com", password_hash="hashed_password")
+            user2 = User(username="jane_smith", email="jane@example.com", password_hash="hashed_password")
 
-            await sess.flush()
+            # Створення тегів
+            tag1 = Tag(name="nature")
+            tag2 = Tag(name="city")
 
 
-            picture = Picture(
-                image=b'RIFF\xbc_\x00\x00WEBPVP8 \xb0_\x00\x00P\x14\x01\x9d\x01*h\x01\xcb\x00>1\x16\x88C"!!\x15If\xbc \x03\x04\xa0\x0b\xbb%U',  # Ваш файл у байтах
-                name="Sunset",
-                description="A beautiful sunset over the mountains",
+            with open(r"C:\Go_iteens_Projects\FastApi_final_project\app\static\wallpaperflare.com_wallpaper.jpg",
+                      "rb") as image_file:
+                image_data = image_file.read()
+
+
+            picture1 = Picture(
+                name="Sunset in Nature",
+                description="A beautiful sunset over a forest.",
                 tag="nature",
+                image=image_data,
                 author=user
             )
 
-            await sess.flush()
+            # Додавання тегів до картинок
+            picture1.tags.append(tag1)
 
 
-            comment = Comment(
-                content="Amazing shot!",
-                picture=picture,
-                author=user
-            )
+            # Створення коментарів
+            comment1 = Comment(content="Amazing view!", author=user, picture=picture1)
 
-            finalentry = (user, picture, comment)
-            sess.add(finalentry)
+
+            # Додавання до сесії
+            sess.add(user)
+            sess.add(user2)
+            sess.add(picture1)
+
+            sess.add(tag1)
+            sess.add(tag2)
+            sess.add(comment1)
+
+
 
             await sess.commit()
 

@@ -8,7 +8,6 @@ import os
 from settings import settings_app
 
 
-
 def optimaze_image(image_data: bytes) -> bytes:
     with Image.open(io.BytesIO(image_data)) as img:
         img.thumbnail((1024, 1024))

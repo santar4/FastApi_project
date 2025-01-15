@@ -51,3 +51,4 @@ fastapi==0.115.2
 fastapi-cli==0.0.5
 fastapi-sso==0.15.0
 pydantic_settings
+
