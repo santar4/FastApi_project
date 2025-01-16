@@ -16,15 +16,12 @@ async def insert_data():
             user = User(username="john_doe", email="john@example.com", password_hash="hashed_password")
             user2 = User(username="jane_smith", email="jane@example.com", password_hash="hashed_password")
 
-            # Створення тегів
             tag1 = Tag(name="nature")
             tag2 = Tag(name="city")
-
 
             with open(r"C:\Go_iteens_Projects\FastApi_final_project\app\static\wallpaperflare.com_wallpaper.jpg",
                       "rb") as image_file:
                 image_data = image_file.read()
-
 
             picture1 = Picture(
                 name="Sunset in Nature",
@@ -37,10 +34,8 @@ async def insert_data():
             # Додавання тегів до картинок
             picture1.tags.append(tag1)
 
-
             # Створення коментарів
             comment1 = Comment(content="Amazing view!", author=user, picture=picture1)
-
 
             # Додавання до сесії
             sess.add(user)
@@ -51,13 +46,12 @@ async def insert_data():
             sess.add(tag2)
             sess.add(comment1)
 
-
-
             await sess.commit()
 
         except Exception as e:
             await sess.rollback()
             print(f"Помилка при додаванні даних: {e}")
+
 
 async def main():
     await create_bd()
